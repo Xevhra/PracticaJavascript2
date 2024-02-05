@@ -197,7 +197,7 @@ class Gestor {
         this._categorias = value;
     }
 
-     get comerciales() {
+    get comerciales() {
         return this._comerciales;
     }
 

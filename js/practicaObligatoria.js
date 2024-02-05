@@ -45,8 +45,9 @@ const clientes = [
 const categorias = ["Aceite", "Encurtidos", "Salsas"];
 
 
+
 document.addEventListener("DOMContentLoaded", cargarDatos);
-document.getElementsByName("comerciales")[0].addEventListener("change", actualizaDatos)
+document.getElementsByName("comerciales")[0].addEventListener("change", seleccionarCliente)
 const gestor = new Gestor()
 
 gestor.categorias = categorias;
@@ -54,25 +55,32 @@ gestor.comerciales= comerciales;
 
 console.log(gestor);
 
+
+
 function cargarDatos() {
   // Creamos el objeto gestor y lo instanciamos
   for (let com = 0; com < gestor.comerciales.length;com++) {
-    let comercial = gestor.comerciales[com];
-     if (!gestor.clientes[com]) {
-      gestor.clientes[com] = [];
-    }
-
+    gestor.clientes[com] = [];
     for (let cli = 0; cli < clientes[com].length; cli++) {
       let cliente = new Cliente(clientes[com][cli]);
       gestor.clientes[com].push(cliente);
       
-    }
+    } 
+  }
+
+  // Añadimos las categorias
+  console.log(categorias);
+  
+  for (let cat = 0; cat < gestor.categorias.length; cat++) {
+    console.log(categorias);
+    gestor.categorias[cat] = []  
+    gestor.categorias[cat].push(categorias[cat]);
   }
 
   // Cargamos los comerciales en el select
 
   let selectComerciales = document.getElementsByName("comerciales")[0];
-  for (comercial of gestor.comerciales){
+  for (let comercial of gestor.comerciales){
     opcion = document.createElement('option');
     opcion.value = comercial;
     opcion.append(document.createTextNode(comercial))
@@ -90,33 +98,45 @@ function cargarDatos() {
     divCliente.innerHTML = cliente.nombre;
     formComercial.after(divCliente);
   }  
+
+
+  // Cargamos las categorias en el select
+  console.log('Hola Piero');
+  let selectCategorias = document.getElementsByName("categorias")[0];
+  for (let categoria of gestor.categorias){
+    opcionCategoria = document.createElement('option');
+    opcionCategoria.value = categoria;
+    opcionCategoria.append(document.createTextNode(categoria))
+    selectCategorias.append(opcionCategoria);
+  }
 }
 
 function seleccionarCliente () {
   let comercialSeleccionado = document.getElementsByName("comerciales")[0].value;
   gestor.comercialActual = gestor.comerciales.indexOf(comercialSeleccionado);
-  borrarClientes();
+  
   actualizaDatos();
 }
 
 
 function actualizaDatos() {
-    let formComercial = document.getElementById("frmComercial");
-    borrarClientes();  // Add this line to remove existing clients
-
+    borrarClientes();
+    console.log(('Hola Piero'));
+    let clientes = document.getElementById("clientes");
     let clientesActuales = gestor.clientes[gestor.comercialActual];
-
-    if (clientesActuales) {
+    console.log(gestor.comercialActual);
         for (let cli = 0; cli < clientesActuales.length; cli++) {
+            console.log('Adios Piero');
             let cliente = clientesActuales[cli];
             let divCliente = document.createElement('div');
             divCliente.classList.add('cliente');
             divCliente.classList.add('pagado');
             divCliente.addEventListener('click', seleccionarCliente);
             divCliente.innerHTML = cliente.nombre;
-            formComercial.after(divCliente);
+            console.log(divCliente.innerHTML);
+            clientes.appendChild(divCliente);
         }
-    }
+    
 }
 
 
@@ -126,5 +146,7 @@ function borrarClientes() {
     div.remove();
   }
 }
+
+
 
 
