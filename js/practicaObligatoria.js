@@ -176,8 +176,6 @@ function seleccionarCliente () {
 
 
 function seleccionarCategoria () {
-  let categoriaSeleccionada = document.getElementsByName("categorias")[0].value;
-  
   actualizaProductos();
 }
 
@@ -278,13 +276,35 @@ function borrarClientes() {
 
 
 let pedido = document.getElementById("pedido");
+let objetivo;
+let clienteSeleccionado;
+let productoSeleccionado = document.getElementsByName('productos')[0];
+ 
+
+
+
+
+
+function teclado(event) {
+  objetivo = event.target;
+  console.log(productoSeleccionado);
+  let divLineaPedido = document.createElement('div');
+  divLineaPedido.innerHTML ="<h3>"+productoSeleccionado.value+"</h3>"
+  pedido.lastChild.append(divLineaPedido);
+  
+        
+   
+    console.log(productoSeleccionado.value);
+  
+}
+
 
 function realizaPedido(event){
   borrarDivPedido()
-  let clienteSeleccionado = event.target;
+  clienteSeleccionado = event.target;
   let divPedido = document.createElement('div');
-  divPedido.setAttribute("name", "titulo");
   
+  divPedido.setAttribute("name", "titulo");
   divPedido.innerHTML = "<h2>"+clienteSeleccionado.innerHTML+"</h2>"
   pedido.append(divPedido);
   
@@ -298,10 +318,8 @@ function borrarDivPedido() {
 }
 
 
-function teclado(event) {
-  objetivo = event.target;
-  console.log(objetivo.value);
-}
+
+
 
 
 
