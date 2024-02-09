@@ -121,7 +121,7 @@ function cargarDatos() {
 
   let selectComerciales = document.getElementsByName("comerciales")[0];
   for (let comercial of gestor.comerciales){
-    opcion = document.createElement('option');
+    let opcion = document.createElement('option');
     opcion.value = comercial;
     opcion.append(document.createTextNode(comercial))
     selectComerciales.append(opcion)
@@ -145,7 +145,7 @@ function cargarDatos() {
   let selectCategorias = document.getElementsByName("categorias")[0];
   let selectProducto = document.getElementsByName("productos")[0]
       for (let categoria of gestor.categorias){
-        opcionCategoria = document.createElement('option');
+        let opcionCategoria = document.createElement('option');
         opcionCategoria.value = categoria;
         opcionCategoria.setAttribute("value", gestor.categorias.indexOf(categoria))
         opcionSeleccionada = document.getElementsByName("categorias")[0].value;
@@ -161,7 +161,8 @@ for (producto of catalogo.productos) {
     opcionProducto.setAttribute("value", catalogo.productos.indexOf(producto));
     opcionProducSeleccionada = document.getElementsByName("productos")[0].value;
     opcionProducto.append(document.createTextNode(producto.nombreProducto));
-    selectProducto.append(opcionProducto); 
+    selectProducto.append(opcionProducto);
+    console.log(opcionProducto); 
   }
 }
 
@@ -243,8 +244,6 @@ function actualizaProductos() {
         opcionProducto = document.createElement('option');
         opcionProducto.value = producto;
         opcionProducSeleccionada = document.getElementsByName("productos")[0].value;
-
-        
         opcionProducto.append(document.createTextNode(producto.nombreProducto));
         selectProducto.append(opcionProducto); 
       }
@@ -282,21 +281,55 @@ let productoSeleccionado = document.getElementsByName('productos')[0];
  
 
 
-
+console.log(catalogo);
 
 
 function teclado(event) {
   objetivo = event.target;
+  
   console.log(productoSeleccionado);
   let divLineaPedido = document.createElement('div');
   divLineaPedido.innerHTML ="<h3>"+productoSeleccionado.value+"</h3>"
-  pedido.lastChild.append(divLineaPedido);
   
-        
-   
-    console.log(productoSeleccionado.value);
+  let LPedido = new LineaPedido(objetivo.value, productoSeleccionado.value)
+  console.log(LPedido);
+  console.log(productoSeleccionado.value);
+  
+  let tabla = document.createElement("table");
+  
+
+  let encabezado = tabla.createTHead();
+  let encabezadoFila = encabezado.insertRow();
+  encabezadoFila.innerHTML = "<th>Modificar</th><th>UDS</th><th>ID</th><th>Nombre Producto</th><th>Precio</th>";
+  console.log(encabezadoFila);
+
+  // pedido.lastChild.append(divLineaPedido);
+  pedido.lastChild.append(tabla);
+
+  // Acceder al cuerpo de la tabla
+  
+  // Crear una nueva fila
+  let fila = tabla.insertRow();
+
+  // Agregar celdas a la fila
+  let celdaModificador = fila.insertCell(0);
+  let celdaUnidades = fila.insertCell(1);
+  let celdaIdProducto = fila.insertCell(2);
+  let celdaNombreProducto = fila.insertCell(3);
+  let celdaTotal = fila.insertCell(4);
+
+  // Asignar los valores a las celdas
+  celdaIdProducto.innerHTML = LPedido.idProducto;  // Ajusta esto según la propiedad real del objeto
+  celdaUnidades.innerHTML = LPedido.unidades;  // Ajusta esto según la propiedad real del objeto
+  celdaNombreProducto.innerHTML = gestor.catalogo.nombre;  // Ajusta esto según la propiedad real del objeto
+
+  console.log(celdaIdProducto);
+  console.log(celdaUnidades);
+  console.log(celdaNombreProducto);
   
 }
+
+
 
 
 function realizaPedido(event){
